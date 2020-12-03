@@ -1,11 +1,20 @@
+#read
+products = []
+with open('products.txt', 'r') as f:
+	for line in f:
+		name, price = line.strip().split(',')
+		products.append([name, price])
+
+#input
 products = []
 while True:
-	name = input('product name: ')
+	name = input('enter name: ')
 	if name == 'q':
 		break
-	price = input('product price: ')
-	if price == 'q':
-		break
-	p = [name, price]
-	products = [p]
-print(products)
+	price = input('enter price: ')
+	products.append([name, price])
+
+#write
+with open('products.txt', 'w') as f:
+	for p in products:
+		f.write(p[0] + ',' + p[1] + '\n')
