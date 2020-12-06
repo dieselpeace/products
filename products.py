@@ -1,26 +1,40 @@
 import os
 
-products = []
-if os.path.isfile('products.txt'):
-	print('file located.')
-	with open('products.txt', 'r') as f:
+def read_file(filename):
+	products = []
+	with open(filename, 'r') as f: #read
 		for line in f:
+			if 'products, price' in line:
+				continue
 			name, price = line.strip().split(',')
 			products.append([name, price])
-else:
-	print('file not found')
+	return products
 
-#input
-products = []
-while True:
-	name = input('enter name: ')
-	if name == 'q':
-		break
-	price = input('enter price: ')
-	products.append([name, price])
+def user_input(products):
+	while True:
+		name = input('enter name: ')
+		if name == 'q':
+			break
+		price = input('enter price: ')
+		price = int(price)
+		products.append([name, price])
+	return products
+	
+def write_file(filename, products):
+	with open(filename, 'w') as f: 
+		f.write('products, price\n')
+		for p in products:
+			f.write(p[0] + ',' + str(p[1]) + '\n')
 
-#write
-with open('products.txt', 'w') as f:
-	for p in products:
-		f.write(p[0] + ',' + p[1] + '\n')
-print(products)
+def main():
+	filename = 'products.txt'
+	if os.path.isfile(filename): #chech if file is there
+		products = read_file(filename)
+	else: 
+		print('file not found')
+
+	products = user_input(products)
+	write_file('products.txt', products)
+
+main()
+
